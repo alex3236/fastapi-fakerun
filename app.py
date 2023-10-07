@@ -1,45 +1,63 @@
-from typing import Optional
-import httpx
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
-from models import GithubUserModel
+from fastapi import FastAPI, Query
+from fastapi.responses import FileResponse, JSONResponse
 
 app = FastAPI()
-templates = Jinja2Templates(directory="templates")
 
-limits = httpx.Limits(max_keepalive_connections=5, max_connections=10)
-timeout = httpx.Timeout(timeout=5.0, read=15.0)
-client = httpx.AsyncClient(limits=limits, timeout=timeout)
+points = {
+    "code":2,
+    "latestVer":20,
+    "data":{
+        "mapLibVer":20,
+        "data":[
+            {
+                "mapId":1,
+                "version":1,
+                "name":"\u5c71\u897f\u5de5\u5b66\u9662",
+                "icon":"\ud83d\ude05",
+                "desc":"\u5c71\u897f\u5de5\u5b66\u9662",
+                "isPublic":True,
+                "points":[
+                    {
+                        "lon":112.448653,
+                        "lat":39.37391
+                    },
+                    {
+                        "lon":112.450337,
+                        "lat":39.373869
+                    },
+                    {
+                        "lon":112.450343,
+                        "lat":39.372981
+                    },
+                    {
+                        "lon":112.448449,
+                        "lat":39.373048
+                    },
+                    {
+                        "lon":112.446652,
+                        "lat":39.373438
+                    },
+                    {
+                        "lon":112.446969,
+                        "lat":39.375287
+                    },
+                    {
+                        "lon":112.44728,
+                        "lat":39.374192
+                    },
+                    {
+                        "lon":112.45119,
+                        "lat":39.374715
+                    }
+                ]
+            }
+        ]
+    }
+}
 
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    print("shutting down...")
-    await client.aclose()
-
-
-@app.get("/", response_class=HTMLResponse)
-async def index(request: Request, username: str = None):
-    if not username:
-        return templates.TemplateResponse("index.html", context={"request": request})
-
-    user = await get_github_profile(request, username)
-    if not user:
-        return templates.TemplateResponse("404.html", context={"request": request})
-
-    return templates.TemplateResponse("index.html", context={"request": request, "user": user})
-
-
-@app.get("/{username}", response_model=GithubUserModel)
-async def get_github_profile(request: Request, username: str) -> Optional[GithubUserModel]:
-    headers = {"accept": "application/vnd.github.v3+json"}
-
-    response = await client.get(f"https://api.github.com/users/{username}", headers=headers)
-
-    if response.status_code == 404:
-        return None
-
-    user = GithubUserModel(**response.json())
-
-    return user
+@app.get("/")
+async def get_data(curr_map_ver: int = Query(None)):
+    if curr_map_ver == 19:
+        return JSONResponse(content={"code": 0})
+    else:
+        return JSONResponse(content=points)
