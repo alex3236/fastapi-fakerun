@@ -12,9 +12,9 @@ points = {
             {
                 "mapId":1,
                 "version":1,
-                "name":"\u5c71\u897f\u5de5\u5b66\u9662",
-                "icon":"\ud83d\ude05",
-                "desc":"\u5c71\u897f\u5de5\u5b66\u9662",
+                "name":"\\u5c71\\u897f\\u5de5\\u5b66\\u9662",
+                "icon":"\\ud83d\\ude05",
+                "desc":"\\u5c71\\u897f\\u5de5\\u5b66\\u9662",
                 "isPublic":True,
                 "points":[
                     {
