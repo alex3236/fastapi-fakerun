@@ -57,7 +57,7 @@ points = {
 
 @app.get("/")
 async def get_data(curr_map_ver: int = Query(None)):
-    if curr_map_ver == 19:
+    if curr_map_ver == points["latestVer"]:
         return JSONResponse(content={"code": 0})
     else:
         return JSONResponse(content=points)
