@@ -25,5 +25,5 @@ async def check_update(version: str = Query(None)):
     return Response(content='1')
 
 @app.get("/auth.php")
-async def auth():
-    return Response(content='1')
+async def auth(keycode: str = Query(None)):
+    return Response(content='1' if keycode == '1' else '-12')
