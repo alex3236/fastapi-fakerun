@@ -22,7 +22,7 @@ async def get_data(curr_map_ver: int = Query(None)):
         
 @app.get("/checkUpdate.php")
 async def check_update(version: str = Query(None)):
-    return Response(status_code=HTTP_200_OK)
+    return Response(content='1')
 
 @app.get("/auth.php")
 async def auth():
