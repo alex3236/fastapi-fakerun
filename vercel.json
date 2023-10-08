@@ -4,7 +4,8 @@
 	"builds": [{ "src": "app.py", "use": "@vercel/python" }],
 	"routes": [
 		{ "src": "/", "dest": "app.py" },
-		{ "src": "/auth", "dest": "app.py" },
-		{ "src": "/checkUpdate", "dest": "app.py" }
+		{ "src": "/updateMapData.php", "dest": "app.py" },
+		{ "src": "/auth.php", "dest": "app.py" },
+		{ "src": "/checkUpdate.php", "dest": "app.py" }
 	]
 }
